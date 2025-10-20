@@ -17,7 +17,7 @@ const Contact = () => {
         {
             icon: <Mail size={24} />,
             label: "Email",
-            href: "mailto:kaif22101@gmail.com",
+            href: "mailto:mdkaifalam7075@gmail.com",
         },
     ];
 
@@ -43,7 +43,7 @@ const Contact = () => {
                 </div>
 
                 <a
-                    href="mailto:kaif22101@gmail.com"
+                    href="mailto:mdkaifalam7075@gmail.com"
                     className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-lg font-semibold hover:scale-105 transition-transform"
                 >
                     Get In Touch
