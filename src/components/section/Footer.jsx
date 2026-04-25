@@ -1,9 +1,12 @@
 import React from "react";
+
 const Footer = () => {
     return (
-        <footer className="relative z-10 border-t border-purple-500/20 py-8 text-center text-gray-400">
-            <p>© 2025 Md Kaif Alam. Crafted with passion and code.</p>
+        <footer className="border-t border-white/10 py-6 text-center text-gray-500 text-sm">
+            <p>© {new Date().getFullYear()} Md Kaif Alam</p>
+            <p className="mt-1">Built with React • Tailwind • Passion 🚀</p>
         </footer>
     );
 };
+
 export default Footer;

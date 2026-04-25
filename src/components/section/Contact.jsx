@@ -24,14 +24,17 @@ const Contact = () => {
     return (
         <section id="contact" className="relative py-32 px-6 z-10">
             <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-6xl font-bold mb-8 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                    Let's Work Together
+
+                <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    Let’s Build Something Great 🚀
                 </h2>
-                <p className="text-xl text-gray-400 mb-12">
-                    Have a project in mind? Let's create something amazing together.
+
+                <p className="text-lg text-gray-400 mb-10">
+                    I'm open to internships and collaboration opportunities.
+                    Let’s create impactful products together.
                 </p>
 
-                <div className="flex justify-center gap-6 mb-12">
+                <div className="flex justify-center gap-6 mb-10">
                     {socials.map((social) => (
                         <SocialLink
                             key={social.label}
@@ -44,7 +47,7 @@ const Contact = () => {
 
                 <a
                     href="mailto:mdkaifalam7075@gmail.com"
-                    className="inline-block px-12 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-lg font-semibold hover:scale-105 transition-transform"
+                    className="inline-block px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full text-lg font-semibold hover:scale-105 transition-transform"
                 >
                     Get In Touch
                 </a>

@@ -1,47 +1,76 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-// Particle Canvas Background Component
 const ParticleCanvas = () => {
     const canvasRef = useRef(null);
+    const animationRef = useRef(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext("2d");
 
-        const particles = [];
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+
+        const dpr = window.devicePixelRatio || 1;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+
+        ctx.scale(dpr, dpr);
+
+        let mouse = { x: null, y: null };
+
+        window.addEventListener("mousemove", (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
         const particleCount = 80;
+        const particles = [];
 
         for (let i = 0; i < particleCount; i++) {
             particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
                 radius: Math.random() * 2 + 1,
-                vx: Math.random() * 0.5 - 0.25,
-                vy: Math.random() * 0.5 - 0.25
             });
         }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(139, 92, 246, 0.5)';
-            ctx.strokeStyle = 'rgba(139, 92, 246, 0.2)';
+        const animate = () => {
+            ctx.clearRect(0, 0, width, height);
 
             particles.forEach((p, i) => {
+                // Move
                 p.x += p.vx;
                 p.y += p.vy;
 
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                // Bounce
+                if (p.x <= 0 || p.x >= width) p.vx *= -1;
+                if (p.y <= 0 || p.y >= height) p.vy *= -1;
 
+                if (mouse.x && mouse.y) {
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        p.x -= dx * 0.01;
+                        p.y -= dy * 0.01;
+                    }
+                }
+
+                // Draw particle
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(139, 92, 246, 0.7)";
                 ctx.fill();
 
-                particles.slice(i + 1).forEach(p2 => {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
                     const dx = p.x - p2.x;
                     const dy = p.y - p2.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
@@ -50,24 +79,45 @@ const ParticleCanvas = () => {
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
+
+                        // Dynamic opacity
+                        ctx.strokeStyle = `rgba(139,92,246,${1 - dist / 120})`;
+                        ctx.lineWidth = 1;
                         ctx.stroke();
                     }
-                });
+                }
             });
 
-            requestAnimationFrame(animate);
-        }
+            animationRef.current = requestAnimationFrame(animate);
+        };
 
         animate();
-
         const handleResize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            canvas.style.width = width + "px";
+            canvas.style.height = height + "px";
+
+            ctx.scale(dpr, dpr);
         };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            cancelAnimationFrame(animationRef.current);
+            window.removeEventListener("resize", handleResize);
+        };
     }, []);
 
-    return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />;
+    return (
+        <canvas
+            ref={canvasRef}
+            className="fixed inset-0 pointer-events-none z-0"
+        />
+    );
 };
+
 export default ParticleCanvas;

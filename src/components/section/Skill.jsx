@@ -1,52 +1,37 @@
 import React from "react";
 import SkillCard from "../Reusable/SkillCard";
-import { Code, Palette, Rocket } from "lucide-react";
+import { Code, Rocket, Database } from "lucide-react";
 
 const Skill = ({ isVisible }) => {
     const skills = [
         {
             name: "Programming & DSA",
             icon: <Code />,
-            items: ["C++", "DSA", "Python", "SQL"],
+            items: ["C++", "DSA (200+)", "Python", "SQL"],
         },
         {
-            name: "Frontend Development",
+            name: "Full-Stack",
             icon: <Rocket />,
-            items: [
-                "React",
-                "Redux",
-                "JavaScript",
-                "HTML",
-                "CSS",
-                "Tailwind CSS",
-            ],
+            items: ["React", "Node", "MongoDB", "JWT", "Socket.io"],
         },
         {
-            name: "Design & Tools",
-            icon: <Palette />,
-            items: [
-                "Figma",
-                "StarUML",
-                "Dia",
-                "Google Cloud",
-            ],
+            name: "Tools",
+            icon: <Database />,
+            items: ["Git", "Postman", "Figma", "VS Code"],
         },
     ];
 
     return (
-        <section id="skills" className="relative py-32 px-6 z-10">
+        <section id="skills" className="py-32 px-6">
             <div className="max-w-6xl mx-auto">
-                <h2 className="text-6xl font-bold mb-16 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                    Skills & Expertise
+
+                <h2 className="text-5xl font-bold mb-16 text-center gradient-text">
+                    Skills
                 </h2>
+
                 <div className="grid md:grid-cols-3 gap-8">
                     {skills.map((skill, i) => (
-                        <SkillCard
-                            key={i}
-                            skill={skill}
-                            index={i}
-                            isVisible={isVisible}
-                        />
+                        <SkillCard key={i} skill={skill} index={i} isVisible={isVisible} />
                     ))}
                 </div>
             </div>
